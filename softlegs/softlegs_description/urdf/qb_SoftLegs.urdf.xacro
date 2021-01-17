@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="softlegs" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find qb_move_description)/urdf/qbmove.utils.xacro" ns="qbmove"/>
+  <xacro:include filename="$(find softlegs_description)/urdf/leg.xacro"/>
+
+  <link name="world"/>
+  <joint name="body_base" type="floating">
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="root_link"/>
+  </joint>
+  <link name="root_link">
+      <inertial>
+          <origin xyz="0 0 0.2" rpy="0 0 0"/>
+          <mass value="1.7"/>
+          <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+      </inertial> 
+      <visual>
+            <origin xyz="0 0 -0.017" rpy="0 0 0"/>
+            <geometry>
+				<box size="0.066 0.25 0.01" />
+            </geometry>	
+       </visual> 
+      <visual>
+            <origin xyz="0 0 0.1" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.25 0.3 0.18" />
+            </geometry> 
+       </visual> 
+
+       <collision>
+            <origin xyz="0 0 -0.017" rpy="0 0 0"/>
+            <geometry>
+				<box size="0.066 0.25 0.01" />
+            </geometry>	
+       </collision> 
+       <collision>
+            <origin xyz="0 0 0.1" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.25 0.3 0.18" />
+            </geometry> 
+       </collision> 
+  </link>
+  <xacro:qbmove.build_flange_from_yaml flange="double_flat_flange" namespace="base" parent="root"/>
+
+  # Left leg
+  <xacro:leg type="left" distance="0 -0.08 -0.022">
+  </xacro:leg>
+
+  # Right leg
+  <xacro:leg type="right" distance="0 0.08 -0.022">
+  </xacro:leg>
+
+  <gazebo>
+      <self_collide>1</self_collide>
+  </gazebo>
+
+</robot>

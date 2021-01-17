@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="leg" params="type distance">
+
+    <joint name="${type}_base" type="fixed">
+      <origin xyz="${distance}" rpy="0 0 0"/>
+      <parent link="root_link"/>
+      <child link="${type}_base_link"/>
+    </joint>
+
+    <link name="${type}_base_link"/>S
+
+    # Leg base double flange
+    <xacro:qbmove.build_flange_from_yaml flange="double_flat_flange" namespace="${type}_hip" parent="${type}_base"/>
+
+    # Hip 
+    <xacro:qbmove.build_move_from_yaml namespace="${type}_hip" parent="${type}_hip_double_flat_flange">
+        <origin xyz="0 0.033 -0.046" rpy="1.57 0 0"/>
+    </xacro:qbmove.build_move_from_yaml>
+    <xacro:qbmove.build_flange_from_yaml flange="c_flange_axis" namespace="${type}_hip" parent="${type}_hip_shaft"/>
+
+    # Knee
+    <xacro:qbmove.build_move_from_yaml namespace="${type}_knee" parent="${type}_hip_c_flange_axis">
+      <origin xyz="-0.033 0 0.064" rpy="-1.57 0 -1.57"/>
+    </xacro:qbmove.build_move_from_yaml>
+    <xacro:qbmove.build_flange_from_yaml flange="c_flange_axis" namespace="${type}_knee" parent="${type}_knee_shaft"/>
+
+    # Dummy flange for the ankle
+    <joint name="${type}_dummy_ankle_joint" type="fixed">
+        <origin xyz="0 0 0.066" rpy="3.14 0 1.57"/>
+        <parent link="${type}_knee_c_flange_axis_link"/>
+        <child link="${type}_dummy_ankle_flange"/>
+    </joint>
+    <link name="${type}_dummy_ankle_flange">
+      <inertial>
+          <origin xyz="0 0 -0.033" rpy="0 0 0"/>
+          <mass value="0.6"/>
+          <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+      </inertial>  
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 -1.57"/>
+        <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_c_flange_m.dae" />
+        </geometry> 
+      </visual>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qbmove_frame_m.dae" />
+        </geometry>  
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 -1.57"/>
+        <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_collision_m.stl"/>
+        </geometry>    
+      </collision>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+        </geometry>     
+      </collision>
+    </link> 
+
+    # Ankle
+    <joint name="${type}_ankle_shaft_joint" type="revolute">
+        <origin xyz="0 0 -0.056" rpy="1.57 0 3.14"/>
+        <parent link="${type}_dummy_ankle_flange"/>
+        <child link="${type}_ankle_shaft_link"/>
+        <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="${type}_ankle_shaft_link"> 
+        <inertial>
+            <origin xyz="0.005 0 0" rpy="0 0 0"/>
+            <mass value="0.45"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial> 
+        <visual>
+          <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_flat_flange_m.dae" />
+          </geometry>     
+        </visual>
+        <visual>
+          <origin xyz="0 0 0.03" rpy="3.14 0 0"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_flat_flange_m.dae" />
+          </geometry>  
+        </visual>   
+        <visual>
+          <origin xyz="-0.033 0 0" rpy="0 -1.57 3.14"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qbmove_frame_m.dae" />
+          </geometry> 
+        </visual>
+
+        <collision>
+          <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_flat_flange_m.stl" />
+          </geometry>     
+        </collision>
+        <collision>
+          <origin xyz="0 0 0.03" rpy="3.14 0 0"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_flat_flange_m.stl" />
+          </geometry>    
+        </collision>   
+        <collision>
+          <origin xyz="-0.033 0 0" rpy="0 -1.57 3.14"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+          </geometry> 
+        </collision>
+      </link> 
+
+    # Roll joint ankle
+    <joint name="${type}_roll_ankle_shaft_joint" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="${type}_ankle_shaft_link"/>
+        <child link="${type}_roll_ankle_shaft_link"/>
+        <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+        <axis xyz="1 0 0"/>
+    </joint>
+    <link name="${type}_roll_ankle_shaft_link">
+        <inertial>
+            <origin xyz="0 -0.06 0" rpy="0 0 0"/>
+            <mass value="0.10"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial> 
+        <visual>
+          <origin xyz="0 -0.056 0" rpy="1.57 0 0"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_c_flange_m.dae" />
+          </geometry>      
+        </visual>
+        <visual>
+          <origin xyz="0.005 -0.064 0" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.12 0.02 0.08" />
+          </geometry> 
+        </visual>
+
+        <collision>
+          <origin xyz="0 -0.056 0" rpy="1.57 0 0"/>
+          <geometry>
+            <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_m.stl" />
+          </geometry>    
+        </collision>
+        <collision>
+          <origin xyz="0.005 -0.064 0" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.12 0.02 0.08" />
+          </geometry> 
+        </collision>
+    </link>
+
+    <!-- To insert also the motors on the custom joint *ankle* not following the qb "convention" -->
+    <xacro:qbmove.build_motors_from_yaml namespace="${type}_ankle" parent="${type}_ankle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:qbmove.build_motors_from_yaml>
+
+    <!-- To insert also the motors on the custom joint *roll_ankle* not following the qb "convention" -->
+    <xacro:qbmove.build_motors_from_yaml namespace="${type}_roll_ankle" parent="${type}_roll_ankle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:qbmove.build_motors_from_yaml>
+
+    <!-- To insert the advanced plugin for the two custom joints -->
+    <gazebo>
+        <plugin name="advanced_vsa" filename="libadvanced_plugin.so">
+            <joint>${type}_ankle_shaft_joint</joint> 
+            <pub_eltau>false</pub_eltau>                 
+            <pub_state>true</pub_state>                 
+            <sub_ext_tau>false</sub_ext_tau>   
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="advanced_vsa" filename="libadvanced_plugin.so">
+            <joint>${type}_roll_ankle_shaft_joint</joint>
+            <pub_eltau>false</pub_eltau>                 
+            <pub_state>true</pub_state>                 
+            <sub_ext_tau>false</sub_ext_tau>    
+        </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

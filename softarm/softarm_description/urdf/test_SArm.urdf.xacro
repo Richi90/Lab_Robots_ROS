@@ -1,0 +1,374 @@
+<?xml version="1.0"?>
+<robot name="softarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find softhands_description)/urdf/softhands.xacro"/>
+
+	<material name="qb_black">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>  
+	<material name="qb_blue">
+		<color rgba="0.0 0.5 0.8 1.0"/>
+	</material>
+	
+    <link name="world">
+    </link> 
+    <joint name="ground_fixed" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 3.14"/> 
+        <parent link="world"/>
+        <child link="ground"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+    <link name="ground">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 3.14"/>
+            <mass value="1.0"/>
+            <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="1.57 0 3.14"/>
+            <geometry>
+				<mesh filename="package://softarm_description/meshes/softarm/dae/6_dof_arm_base_frame_m.dae" />
+            </geometry>	
+			<material name="qb_black"/>
+        </visual> 
+        <collision>
+            <origin xyz="0 0 0" rpy="1.57 0 3.14"/>
+            <geometry>
+                <mesh filename="package://softarm_description/meshes/softarm/stl/6_dof_arm_base_frame_m.stl" />
+            </geometry> 
+            <material name="qb_black"/>
+        </collision> 
+    </link>
+    
+    # Joint n1
+    <joint name="J1" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="ground"/>
+        <child link="Link1"/>
+		<limit effort="30" velocity="1.0" lower="-3.14" upper="3.14" />
+        <axis xyz="0 0 1"/>
+    </joint>
+    
+    <link name="Link1"> 
+        <inertial>
+            <origin xyz="0 0 0.1225" rpy="0 0 0"/>
+            <mass value="0.6200"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>	
+        <visual>
+            <origin xyz="0 0 0.0795" rpy="1.57 0 -1.57"/>
+            <geometry>
+                <mesh filename="package://softarm_description/meshes/softarm/dae/6_dof_arm_base_link_1_m.dae" />
+            </geometry>
+			<material name="qb_black"/>			
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.0795" rpy="1.57 0 -1.57"/>
+            <geometry>
+                <mesh filename="package://softarm_description/meshes/softarm/stl/6_dof_arm_base_link_1_m.stl" />
+            </geometry>
+            <material name="qb_black"/>         
+        </collision>
+    </link>  
+
+    # Joint n2
+    <joint name="J2" type="revolute">
+        <origin xyz="0 0 0.1325" rpy="1.57 0 0"/>
+        <parent link="Link1"/>
+        <child link="Link2"/>
+		<limit effort="30" velocity="1.0" lower="-3.14" upper="3.14" />
+        <axis xyz="0 0 1"/>
+    </joint>
+ 
+    <link name="Link2"> 
+        <inertial>
+            <origin xyz="-0.046 0.217 0" rpy="0 0 0"/>
+            <mass value="1.2000"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>	
+        <visual>
+            <origin xyz="0 0 0" rpy="0 3.14 0"/>
+            <geometry>
+				<mesh filename="package://softarm_description/meshes/softarm/dae/6_dof_arm_base_link_2_m.dae" />
+            </geometry>
+			<material name="qb_black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 3.14 0"/>
+            <geometry>
+                <mesh filename="package://softarm_description/meshes/softarm/stl/6_dof_arm_base_link_2_m.stl" />
+            </geometry>
+            <material name="qb_black"/>
+        </collision>
+    </link>	
+
+    # Joint n3
+    <joint name="J3" type="revolute">
+		<origin xyz="-0.0705 0.2916 0" rpy="0 0 2.3318"/>
+        <parent link="Link2"/>
+        <child link="Link3"/>
+		<limit effort="30" velocity="1.0" lower="-3.14" upper="3.14" />
+        <axis xyz="0 0 1"/>
+    </joint>
+ 
+    <link name="Link3"> 
+        <inertial>
+			<origin xyz="-0.01 0.084 0.005" rpy="0 0 0"/>
+            <mass value="0.6000"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>	
+		<visual>
+            <origin xyz="0.016 0.055 0" rpy="-1.57 1.57 -0.2862"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_c_flange_m.dae" />
+            </geometry>
+			<material name="qb_blue"/>
+        </visual>
+		<visual>
+            <origin xyz="0.019 0.089 0" rpy="0 3.14 -1.29"/>
+            <geometry>
+				<mesh filename="package://softarm_description/meshes/softarm/dae/arm_angular_m.dae" />
+            </geometry>
+			<material name="qb_black"/>
+        </visual>
+		<visual>
+            <origin xyz="0.017 0.095 0" rpy="-1.57 0 0.2862"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_flat_flange_m.dae" />
+            </geometry>
+			<material name="qb_blue"/>
+        </visual>
+		<visual>
+            <origin xyz="-0.024 0.117 0" rpy="0 1.57 0.2862"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qbmove_frame_m.dae" />
+            </geometry>
+			<material name="qb_black"/>
+        </visual>
+        <collision>
+            <origin xyz="0.016 0.055 0" rpy="-1.57 1.57 -0.2862"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_m.stl" />
+            </geometry>
+            <material name="qb_blue"/>
+        </collision>
+        <collision>
+            <origin xyz="0.019 0.089 0" rpy="0 3.14 -1.29"/>
+            <geometry>
+                <mesh filename="package://softarm_description/meshes/softarm/stl/arm_angular_m.stl" />
+            </geometry>
+            <material name="qb_black"/>
+        </collision>
+        <collision>
+            <origin xyz="0.017 0.095 0" rpy="-1.57 0 0.2862"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_flat_flange_m.stl" />
+            </geometry>
+            <material name="qb_blue"/>
+        </collision>
+        <collision>
+            <origin xyz="-0.024 0.117 0" rpy="0 1.57 0.2862"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/stl/qbmove_frame_m.stl" />
+            </geometry>
+            <material name="qb_black"/>
+        </collision>
+    </link>	
+
+    # Joint n4
+    <joint name="J4" type="revolute">
+        <origin xyz="-0.0396 0.113 0" rpy="1.57 0 1.85"/>
+        <parent link="Link3"/>
+        <child link="Link4"/>
+		<limit effort="30" velocity="1.0" lower="-3.14" upper="3.14" />
+        <axis xyz="0 0 1"/>
+    </joint>
+ 
+    <link name="Link4"> 
+        <inertial>
+			<origin xyz="0.079 0 0.0396" rpy="0 0 0"/>
+            <mass value="0.6400"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>	
+		<visual>
+            <origin xyz="0.056 0 0.046" rpy="3.14 -1.57 0"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_c_flange_m.dae" />
+            </geometry>
+			<material name="qb_blue"/>
+        </visual>
+		<visual>
+            <origin xyz="0.056 0 0.046" rpy="0 1.57 0"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qbmove_frame_m.dae" />
+            </geometry>
+			<material name="qb_black"/>
+        </visual>
+        <collision>
+            <origin xyz="0.056 0 0.046" rpy="3.14 -1.57 0"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_m.stl" />
+            </geometry>
+            <material name="qb_blue"/>
+        </collision>
+        <collision>
+            <origin xyz="0.056 0 0.046" rpy="0 1.57 0"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+            </geometry>
+            <material name="qb_black"/>
+        </collision>
+    </link>
+	
+    # Joint n5
+    <joint name="J5" type="revolute">
+        <origin xyz="0 0 0.046" rpy="1.57 0 1.57"/>
+        <parent link="Link4"/>
+        <child link="Link5"/>
+		<limit effort="30" velocity="1.0" lower="-3.14" upper="3.14" />
+        <axis xyz="0 0 1"/>
+    </joint>
+ 
+    <link name="Link5"> 
+        <inertial>
+            <origin xyz="0 0 0.15" rpy="0 0 0"/>
+            <mass value="0.5500"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>	
+		<visual>
+            <origin xyz="0 0 0.1320" rpy="0 0 1.57"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_flat_flange_m.dae" />
+            </geometry>
+			<material name="qb_blue"/>
+        </visual>
+		<visual>
+            <origin xyz="0.033 0 0.165" rpy="0 -1.57 0"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qbmove_frame_m.dae" />
+            </geometry>
+			<material name="qb_black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.1320" rpy="0 0 1.57"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_flat_flange_m.stl" />
+            </geometry>
+            <material name="qb_blue"/>
+        </collision>
+        <collision>
+            <origin xyz="0.033 0 0.165" rpy="0 -1.57 0"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+            </geometry>
+            <material name="qb_black"/>
+        </collision>
+    </link>
+
+	# Joint n6 
+    <joint name="J6" type="revolute">
+        <origin xyz="0 0 0.165" rpy="1.57 0 1.57"/>
+        <parent link="Link5"/>
+        <child link="Link6"/>
+		<limit effort="30" velocity="1.0" lower="-3.14" upper="3.14" />
+        <axis xyz="0 0 1"/>
+    </joint>
+ 
+    <link name="Link6"> 
+        <inertial>
+            <origin xyz="0 0.14 0" rpy="0 0 0"/>
+            <mass value="0.7300"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>	
+		<visual>
+            <origin xyz="0 0.056 0" rpy="-1.57 1.57 0"/>
+            <geometry>
+				<mesh filename="package://simplecube_description/meshes/qb_meshes/dae/qb_c_flange_m.dae" />
+            </geometry>
+			<material name="qb_blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0.056 0" rpy="-1.57 1.57 0"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_m.stl" />
+            </geometry>
+            <material name="qb_blue"/>
+        </collision>
+    </link>
+
+    # Softhand
+    <xacro:softhands type="right" 
+        version = "v1.0"
+        parent = "Link6"
+        position ="0 0.05 0"
+        orientation ="1.57 0 3.14"
+        model = "power">
+    </xacro:softhands>
+
+    # Gazebo plugins
+    #   qbMove Advanced actuators
+    <gazebo>
+        <plugin name="advanced_vsa_1" filename="libadvanced_plugin.so">
+            <joint>J1</joint>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>false</pub_state>
+            <sub_ext_tau>false</sub_ext_tau>	 
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="advanced_vsa_2" filename="libadvanced_plugin.so">
+            <joint>J2</joint>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>true</pub_state> 		# required for the gravity compensation
+            <sub_ext_tau>true</sub_ext_tau>		# required for the gravity compensation
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="advanced_vsa_3" filename="libadvanced_plugin.so">
+            <joint>J3</joint>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>true</pub_state> 		# required for the gravity compensation
+            <sub_ext_tau>true</sub_ext_tau> 	# required for the gravity compensation
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="advanced_vsa_4" filename="libadvanced_plugin.so">
+            <joint>J4</joint>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>false</pub_state>
+            <sub_ext_tau>false</sub_ext_tau>
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="advanced_vsa_5" filename="libadvanced_plugin.so">
+            <joint>J5</joint>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>false</pub_state>
+            <sub_ext_tau>false</sub_ext_tau>
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="advanced_vsa_6" filename="libadvanced_plugin.so">
+            <joint>J6</joint>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>false</pub_state>
+            <sub_ext_tau>false</sub_ext_tau>
+        </plugin>
+    </gazebo>
+
+    #   Gravity compensation mechanism
+    <gazebo>
+        <plugin name="gravity_compensation" filename="libsoftarm_gcomp_plugin.so">
+            <namespace>softarm</namespace>
+            <joint_2>J2</joint_2>
+            <joint_3>J3</joint_3>
+            <k_2>-39580</k_2>
+            <k_3>-35280</k_3>
+        </plugin>
+    </gazebo>
+
+    <gazebo>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+</robot>
