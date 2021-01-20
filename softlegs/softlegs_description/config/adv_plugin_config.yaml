@@ -1,7 +1,2 @@
 ## Namespace of the robot
 namespace: "softlegs"
-
-## Control type for the joints (TODO: make an array for different control on joints)
-control_type: 1     # controller type [0] for motors position,
-                    #                 [1] for eq. position/preset,
-                    #                 [2] for joint torques,

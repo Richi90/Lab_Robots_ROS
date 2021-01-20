@@ -104,15 +104,26 @@
 	<link name="Tip"> 
 	</link> 
 	
-
-
     <gazebo>
         <self_collide>1</self_collide>
     </gazebo>
 
-<!--     <gazebo>
+    <!-- Legend for the libadvanced_plugin.so custom plugin 
+    
+        # The type of actuator is fixed i.e., qbMove
+        # The control_type can be chosen as: [0,1,2]
+        #      - [0] -> references are directly the motor positions
+        #      - [1] -> references are used as equilibirium position and preset
+        #      - [2] -> first reference is used as direct joint torque, while the second is not used (marked as disabled)
+        #
+        # The three other tags enable the generation and publication of additional topics: the elastic topic publisher, the state publisher and 
+        #      enable the subscription to external torque topic
+
+    -->
+    <gazebo>
         <plugin name="advanced_vsa_j1" filename="libadvanced_plugin.so">
             <joint>J1</joint>
+            <control_type>1</control_type>
             <pub_eltau>false</pub_eltau>
             <pub_state>false</pub_state>
             <sub_ext_tau>false</sub_ext_tau>
@@ -121,42 +132,9 @@
     <gazebo>
         <plugin name="advanced_vsa_j2" filename="libadvanced_plugin.so">
             <joint>J2</joint>
+            <control_type>2</control_type>
             <pub_eltau>false</pub_eltau>
             <pub_state>false</pub_state>
-            <sub_ext_tau>false</sub_ext_tau>
-        </plugin>
-    </gazebo> -->
-
-    <!-- Legend for the libcompliant_plugin.so custom plugin 
-    
-        # Types of actuators: rigid, sea, qbMove, bavs, fsj
-        # If qbMove and bavs selected the control_type can be chosen as: [0,1,2]
-        #      - [0] -> references are directly the motor positions
-        #      - [1] -> references are used as equilibirium position and preset
-        #      - [2] -> references are again used directly as motor positions, but the topics' names are taken from the motors_plugin (TODO!)
-        # The other types does not require a control_type selected, but the tag should be inserted anyway
-        #
-        # The three other tags enable the generation and publication of additional topics: the elastic topic publisher, the state publisher and 
-        #      enable the subscription to external torque topic
-
-    -->
-    <gazebo>
-        <plugin name="advanced_vsa_j1" filename="libcompliant_plugin.so">
-            <joint>J1</joint>
-            <actuator_type>qbMove</actuator_type>         
-            <control_type>1</control_type>              
-            <pub_eltau>false</pub_eltau>                 
-            <pub_state>true</pub_state>                 
-            <sub_ext_tau>false</sub_ext_tau>             
-        </plugin>                                       
-    </gazebo>
-    <gazebo>
-        <plugin name="advanced_vsa_j2" filename="libcompliant_plugin.so">
-            <joint>J2</joint>
-            <actuator_type>qbMove</actuator_type>
-            <control_type>1</control_type>
-            <pub_eltau>false</pub_eltau>
-            <pub_state>true</pub_state>
             <sub_ext_tau>false</sub_ext_tau>
         </plugin>
     </gazebo>

@@ -171,7 +171,8 @@
     <!-- To insert the advanced plugin for the two custom joints -->
     <gazebo>
         <plugin name="advanced_vsa" filename="libadvanced_plugin.so">
-            <joint>${type}_ankle_shaft_joint</joint> 
+            <joint>${type}_ankle_shaft_joint</joint>
+            <control_type>1</control_type> 
             <pub_eltau>false</pub_eltau>                 
             <pub_state>true</pub_state>                 
             <sub_ext_tau>false</sub_ext_tau>   
@@ -180,6 +181,7 @@
     <gazebo>
         <plugin name="advanced_vsa" filename="libadvanced_plugin.so">
             <joint>${type}_roll_ankle_shaft_joint</joint>
+            <control_type>1</control_type>
             <pub_eltau>false</pub_eltau>                 
             <pub_state>true</pub_state>                 
             <sub_ext_tau>false</sub_ext_tau>    

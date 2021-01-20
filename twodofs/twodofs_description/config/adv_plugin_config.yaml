@@ -1,8 +1,2 @@
 ## Namespace of the robot
 namespace: "two_dofs"
-
-## Control type for the joints (TODO: make an array for different control on joints)
-control_type: 3     # controller type [0] for motors position,
-                    #                 [1] for eq. position/preset,
-                    #                 [2] for joint torques,
-                    #                 [3] for motors position (from the other plugin on motors),

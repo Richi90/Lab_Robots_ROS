@@ -29,9 +29,15 @@
             </geometry>	
         </visual>
         <collision>
-            <origin xyz="0 0 0.034" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <box size="0.066 0.066 0.066"/>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+            </geometry> 
+        </collision>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_base_flange_m.stl" />
             </geometry> 
         </collision>
     </link>
@@ -70,4 +76,17 @@
         </collision>
     </link>  
 
+    <gazebo>
+        <self_collide>1</self_collide>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="advanced_vsa_j1" filename="libadvanced_plugin.so">
+            <joint>J1</joint>
+            <control_type>1</control_type>
+            <pub_eltau>false</pub_eltau>
+            <pub_state>true</pub_state>
+            <sub_ext_tau>false</sub_ext_tau>
+        </plugin>
+    </gazebo>
 </robot>
