@@ -13,4 +13,4 @@ Up to now the structures for which the dynamic block is available are:
 The library requires the **ROS-Gazebo-plugin-qbmove** package, available [here](https://github.com/Richi90/ROS-Gazebo-plugin-qbmove), with its dependances.
 
 # Visualization Library Preview
-![](pics/ROSLib_Preview.JPG)
+![](pics/ROSLib_Preview.jpg)
