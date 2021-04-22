@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="leg_light" params="type distance ns">
+
+    <joint name="${type}_base" type="fixed">
+      <origin xyz="${distance}" rpy="0 0 0"/>
+      <parent link="root_link"/>
+      <child link="${type}_base_link"/>
+    </joint>
+
+    # Leg Base
+     <link name="${type}_base_link"> 
+          <inertial>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <mass value="0.45"/>
+              <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+          </inertial>
+          <visual>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_double_flat_flange_m.stl" />
+              </geometry> 
+          </visual>   
+          <visual>
+              <origin xyz="0 0.033 -0.046" rpy="1.57 3.14 0"/>
+              <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+              </geometry> 
+          </visual> 
+          <collision>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <geometry>
+                  <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_double_flat_flange_m.stl" />
+              </geometry> 
+          </collision>   
+          <collision>
+              <origin xyz="0 0.033 -0.046" rpy="1.57 3.14 0"/>
+              <geometry>
+                  <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qbmove_frame_m.stl" />
+              </geometry> 
+          </collision>    
+      </link>
+    
+    # Right Joint n1
+      <joint name="${type}_J1" type="revolute">
+          <origin xyz="0 0 -0.046" rpy="1.57 0 0"/>
+          <parent link="${type}_base_link"/>
+          <child link="${type}_link1"/>
+      <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+          <axis xyz="0 0 1"/>
+      </joint>
+    <link name="${type}_link1">   
+          <inertial>
+              <origin xyz="0 -0.10 0" rpy="0 0 0"/>
+              <mass value="0.7"/>
+              <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+          </inertial> 
+      <visual>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <geometry>
+          <mesh filename="package://softlegs_description/light_meshes/qb_c_flange_long_and_cube_m.stl"/>
+              </geometry> 
+          </visual>
+          <collision>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <geometry>
+                  <mesh filename="package://softlegs_description/light_meshes/qb_c_flange_long_and_cube_m.stl"/>
+              </geometry> 
+          </collision>
+      </link>
+    
+    # Right Joint n2
+      <joint name="${type}_J2" type="revolute">
+          <origin xyz="0 -0.12 0" rpy="0 0 0"/>
+          <parent link="${type}_link1"/>
+          <child link="${type}_link2"/>
+      <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+          <axis xyz="0 0 1"/>
+      </joint>
+    <link name="${type}_link2">   
+          <inertial>
+              <origin xyz="0 -0.09 0" rpy="0 0 0"/>
+              <mass value="1"/>
+              <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+          </inertial> 
+      <visual>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <geometry>
+          <mesh filename="package://softlegs_description/light_meshes/qb_c_flang_cube_and_c_flange_m.stl"/>
+              </geometry>     
+          </visual>
+          <collision>
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <geometry>
+                  <mesh filename="package://softlegs_description/light_meshes/qb_c_flang_cube_and_c_flange_m.stl"/>
+              </geometry>         
+          </collision>
+      </link>
+    
+    <!-- Right Joint n3 -->
+       <joint name="${type}_J3" type="revolute">
+          <origin xyz="0 -0.18 0" rpy="0 0 0"/>
+          <parent link="${type}_link2"/>
+          <child link="${type}_link3"/>
+      <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+          <axis xyz="0 0 1"/>
+      </joint>
+    <link name="${type}_link3"> 
+          <inertial>
+              <origin xyz="0 -0.05 0" rpy="0 0 0"/>
+              <mass value="0.55"/>
+              <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+          </inertial> 
+      <visual>
+              <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
+              <geometry>
+          <mesh filename="package://softlegs_description/light_meshes/qb_cube_2_flat_flange_m.stl"/>
+              </geometry>     
+          </visual>
+      <visual>
+              <origin xyz="0 -0.056 0" rpy="1.57 0 0"/>
+              <geometry>
+          <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_m.stl" />
+              </geometry>     
+          </visual>
+      <visual>
+              <origin xyz="0.005 -0.064 0" rpy="0 0 0"/>
+              <geometry>
+          <box size="0.12 0.02 0.08" />
+              </geometry> 
+          </visual>
+          <collision>
+              <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
+              <geometry>
+                  <mesh filename="package://softlegs_description/light_meshes/qb_cube_2_flat_flange_m.stl"/>
+              </geometry>         
+          </collision>
+          <collision>
+              <origin xyz="0 -0.056 0" rpy="1.57 0 0"/>
+              <geometry>
+                  <mesh filename="package://simplecube_description/meshes/qb_meshes/stl/qb_c_flange_m.stl" />
+              </geometry>         
+          </collision>
+          <collision>
+              <origin xyz="0.005 -0.064 0" rpy="0 0 0"/>
+              <geometry>
+                  <box size="0.12 0.02 0.08" />
+              </geometry> 
+          </collision>
+      </link>  
+    
+    <!-- Right Foot EE -->
+    <joint name="${type}_EE" type="fixed">
+          <origin xyz="0 -0.074 0" rpy="0 0 0"/>
+          <parent link="${type}_link3"/>
+          <child link="${type}_EE"/>
+          <axis xyz="0 0 1"/>
+      </joint>
+    <link name="${type}_EE"> 
+    </link>
+      <joint name="${type}_EE_front" type="fixed">
+          <origin xyz="0.065 -0.074 0" rpy="0 0 0"/>
+          <parent link="${type}_link3"/>
+          <child link="${type}_EE_front"/>
+          <axis xyz="0 0 1"/>
+      </joint>
+    <link name="${type}_EE_front"> 
+    </link>
+    <joint name="${type}_EE_back" type="fixed">
+          <origin xyz="-0.055 -0.074 0" rpy="0 0 0"/>
+          <parent link="${type}_link3"/>
+          <child link="${type}_EE_back"/>
+          <axis xyz="0 0 1"/>
+      </joint>
+    <link name="${type}_EE_back"> 
+    </link>
+
+
+
+    # GAZEBO PLUGIN
+    <gazebo>
+        <plugin name="${type}_sea_1" filename="libsea_plugin.so">
+            <joint>${type}_J1</joint>
+            <namespace>${ns}</namespace>
+            <stiffness>50</stiffness>
+            <pub_eltau>false</pub_eltau>                 
+            <pub_state>true</pub_state>                 
+            <sub_ext_tau>false</sub_ext_tau>   
+        </plugin>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="${type}_sea_2" filename="libsea_plugin.so">
+            <joint>${type}_J2</joint>
+            <namespace>${ns}</namespace>
+            <stiffness>50</stiffness>
+            <pub_eltau>false</pub_eltau>                 
+            <pub_state>true</pub_state>                 
+            <sub_ext_tau>false</sub_ext_tau>   
+        </plugin>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="${type}_sea_3" filename="libsea_plugin.so">
+            <joint>${type}_J3</joint>
+            <namespace>${ns}</namespace>
+            <stiffness>50</stiffness>
+            <pub_eltau>false</pub_eltau>                 
+            <pub_state>true</pub_state>                 
+            <sub_ext_tau>false</sub_ext_tau>   
+        </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

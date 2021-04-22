@@ -7,10 +7,10 @@
 	</include>
 
   	<!-- Load the parameter for the advanced plugin from the configuration file -->
-  	<rosparam command="load" file="$(find softlegs_description)/config/softlegs_config.yaml"/>
+  	<rosparam command="load" file="$(find softlegs_description)/config/oneleg_config.yaml"/>
   	<node pkg="plugin_manager" name="plugin_manager_node" type="plugin_manager_node" output="screen"/>
 
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find softlegs_description)/urdf/SoftLegs_light.urdf.xacro'"/>
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find softlegs_description)/urdf/OneLeg_light.urdf.xacro'"/>
 
 	<arg name="x" default="0"/>
 	<arg name="y" default="0"/>

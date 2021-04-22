@@ -1,0 +1,34 @@
+## Namespace of the robot
+namespace: "softlegs"
+
+## Sample time
+T_sample: 0.001
+
+## Number of qbAdvance Motors
+joints_number: 6
+
+## Joints name
+joints_name: 
+ - "left_J1"
+ - "left_J2"
+ - "left_J3"
+ - "right_J1"
+ - "right_J2"
+ - "right_J3"
+ 
+## Topic names to which publish the references
+ref1_topic_name: 
+ - '/theta_command'
+ - '/theta_command'
+ - '/theta_command'
+ - '/theta_command'
+ - '/theta_command'
+ - '/theta_command'
+
+ref2_topic_name: 
+ - '/null'
+ - '/null'
+ - '/null'
+ - '/null'
+ - '/null'
+ - '/null'

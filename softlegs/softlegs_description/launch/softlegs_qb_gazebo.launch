@@ -7,14 +7,13 @@
 	</include>
 
   	<!-- Load the parameter for the advanced plugin from the configuration file -->
-  	<rosparam command="load" file="$(find softlegs_description)/config/softlegs_config.yaml"/>
-  	<node pkg="plugin_manager" name="plugin_manager_node" type="plugin_manager_node" output="screen"/>
+  	<rosparam command="load" file="$(find softlegs_description)/config/adv_plugin_config.yaml"/>
 
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find softlegs_description)/urdf/SoftLegs_light.urdf.xacro'"/>
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find softlegs_description)/urdf/qb_SoftLegs.urdf.xacro'"/>
 
 	<arg name="x" default="0"/>
 	<arg name="y" default="0"/>
-	<arg name="z" default="0.5"/>
+	<arg name="z" default="0.16"/>
 
 	<node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" 
 		args="-urdf -param robot_description -model softlegs_description -x $(arg x) -y $(arg y) -z $(arg z)"/>
